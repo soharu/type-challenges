@@ -13,11 +13,6 @@ type cases = [
 
 
 // ============= Your Code Here =============
-type FlatAwaited<T extends readonly any[], Result extends any[]> = 
-  T extends readonly [infer H, ...infer Rest]
-    ? FlatAwaited<Rest, [...Result, Awaited<H>]> 
-    : Result
-
-declare function PromiseAll<T extends []|readonly any[]>(
-  values: T
-): Promise<FlatAwaited<T, []>>
+declare function PromiseAll<T extends any[]>(
+  values: readonly [...T]
+): Promise<{ [I in keyof T]: Awaited<T[I]> }>
